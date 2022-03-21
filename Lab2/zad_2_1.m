@@ -31,8 +31,8 @@ for i=0:M-1
     end
 end
 
-gM1 = pinv(Ruu) * ryu;
-gM2 = ryu ./ Ruu(1, 1);
+gM1 = 1 / Tp * pinv(Ruu) * ryu;
+gM2 = 1 / Tp * ryu ./ Ruu(1, 1);
 t = ((0:M-1) * Tp)';
 
 figure
@@ -44,4 +44,18 @@ grid on
 subplot(2, 1, 2)
 plot(t, gM2)
 title('Odpowiedź impulsowa - wzór 11')
+grid on
+
+hM1 = cumsum(gM1);
+hM2 = cumsum(gM2);
+
+figure
+subplot(2, 1, 1)
+plot(t, hM1)
+title('Odpowiedź skokowa - wzór 10')
+grid on
+
+subplot(2, 1, 2)
+plot(t, hM2)
+title('Odpowiedź skokowa - wzór 11')
 grid on
