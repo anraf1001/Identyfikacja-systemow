@@ -22,9 +22,6 @@ grid on
 T0 = (ag*tg - sg) / ag;
 T = k / ag;
 
-T0 = (ag*tg - sg) / ag;
-T = k / ag;
-
 Gm2 = tf(k, [T, 1], 'IODelay', T0);
 [y_step, ~] = step(Gm2, nS(:, 1));
 
