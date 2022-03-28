@@ -18,7 +18,7 @@ plot(Zdata(:, 3), Zdata(:, 2))
 title('y(nTp)')
 grid on
 
-M = 20;
+M = 30;
 ryu = zeros(M, 1);
 for tau=0:M-1
     ryu(tau + 1) = Covar([Zdata(:, 2), Zdata(:, 1)], tau);
@@ -36,14 +36,23 @@ gM2 = 1 / Tp * ryu ./ Ruu(1, 1);
 t = ((0:M-1) * Tp)';
 
 figure
-subplot(2, 1, 1)
+subplot(3, 1, 1)
 plot(t, gM1)
 title('Odpowiedź impulsowa - wzór 10')
 grid on
 
-subplot(2, 1, 2)
+subplot(3, 1, 2)
 plot(t, gM2)
 title('Odpowiedź impulsowa - wzór 11')
+grid on
+
+% G = tf(2, [1 -0.7], Tp);
+% [yimp, ~] = impulse(G, 1:M);
+G = tf(0.5, [5 11 7 1], 'IODelay', 3);
+[yimp, ~] = impulse(G, t);
+subplot(3, 1, 3)
+plot(t, yimp)
+title('Odpowiedź impulsowa - teoretyczna')
 grid on
 
 hM1 = cumsum(gM1);

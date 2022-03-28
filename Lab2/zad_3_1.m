@@ -59,6 +59,10 @@ omega = 2*pi*k / (N * Tp);
 figure
 subplot(2, 1, 1)
 semilogx(omega, 20*log10(abs(GN1(1:(N-1) / 2 + 1))))
+title('Wzór 15')
+grid on
 
 subplot(2, 1, 2)
 semilogx(omega, 20*log10(abs(GN2(1:(N-1) / 2 + 1))))
+title('Wzór 16')
+grid on
