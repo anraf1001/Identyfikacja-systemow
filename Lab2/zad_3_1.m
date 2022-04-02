@@ -56,13 +56,13 @@ GN2 = Phi_yu ./ Phi_uu;
 k = 0:(N-1)/2;
 omega = 2*pi*k / (N * Tp);
 
-figure
-subplot(2, 1, 1)
-semilogx(omega, 20*log10(abs(GN1(1:(N-1) / 2 + 1))))
-title('Wzór 15')
-grid on
+G = tf(1, [0.1 1.05 0.6 1]);
+[mag, ~] = bode(G, omega);
 
-subplot(2, 1, 2)
+figure
+semilogx(omega, 20*log10(abs(GN1(1:(N-1) / 2 + 1))))
+hold on
 semilogx(omega, 20*log10(abs(GN2(1:(N-1) / 2 + 1))))
-title('Wzór 16')
+semilogx(omega, 20*log10(mag(1,:)))
+legend('wzór 15', 'wzór 16', 'prawdziwe Lm')
 grid on
