@@ -2,7 +2,7 @@ close all; clear; clc;
 
 %% Parametry i uruchomienie symulacji
 Tp = 0.5;
-N = 1001;
+N = 1000;
 tend = N * Tp;
 sigma2v = 0.001;
 t = (0:N) * Tp;
@@ -53,16 +53,16 @@ end
 
 GN2 = Phi_yu ./ Phi_uu;
 %% Wykresy Bodego
-k = 0:(N-1)/2;
+k = 0:(N/2 - 1);
 omega = 2*pi*k / (N * Tp);
 
 G = tf(1, [0.1 1.05 0.6 1]);
 [mag, ~] = bode(G, omega);
 
 figure
-semilogx(omega, 20*log10(abs(GN1(1:(N-1) / 2 + 1))))
+semilogx(omega, 20*log10(abs(GN1(k + 1))))
 hold on
-semilogx(omega, 20*log10(abs(GN2(1:(N-1) / 2 + 1))))
+semilogx(omega, 20*log10(abs(GN2(k + 1))))
 semilogx(omega, 20*log10(mag(1,:)))
 legend('wzór 15', 'wzór 16', 'prawdziwe Lm')
 grid on
