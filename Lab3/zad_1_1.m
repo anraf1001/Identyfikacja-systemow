@@ -53,7 +53,7 @@ plot(uC, yCLS, 'LineWidth', 3)
 title('Szum kolorowy')
 
 %% Macierz kowariancji
-sig2 = 1 / (N - 4) * sum(yW - Phi * pLS);
+sig2 = 1 / (N - 4) * sum((yW - Phi * pLS).^2);
 Cov = sig2 * inv(phi * Phi);
 
 PU95_1_min = pLS(1) - 1.96 * sqrt(Cov(1, 1));
