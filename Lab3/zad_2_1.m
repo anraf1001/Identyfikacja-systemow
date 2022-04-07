@@ -71,10 +71,11 @@ G0 = tf(2.0, [0.5, 1]);
 
 GW = tf(kW, [TW, 1]);
 y0W = lsim(G0, uW_wer, t_wer);
-yW_hat = zeros(N_wer, 1);
+PhiW_wer = zeros(N_wer, d);
 for k=2:N_wer
-    yW_hat(k) = pLSW(1) * yW_wer(k-1) + pLSW(2) * uW_wer(k-1);
+    PhiW_wer(k, :) = [yW_wer(k-1), uW_wer(k-1)];
 end
+yW_hat = PhiW_wer * pLSW;
 ymW = lsim(GW, uW_wer, t_wer);
 
 figure
@@ -90,10 +91,11 @@ grid on
 %% Wykresy - szum kolorowy
 GC = tf(kC, [TC, 1]);
 y0C = lsim(G0, uC_wer, t_wer);
-yC_hat = zeros(N_wer, 1);
+PhiC_wer = zeros(N_wer, d);
 for k=2:N_wer
-    yC_hat(k) = pLSC(1) * yC_wer(k-1) + pLSC(2) * uC_wer(k-1);
+    PhiC_wer(k, :) = [yC_wer(k-1), uC_wer(k-1)];
 end
+yC_hat = PhiC_wer * pLSC;
 ymC = lsim(GC, uC_wer, t_wer);
 
 figure
@@ -105,3 +107,20 @@ plot(t_wer, ymC)
 legend('zmierzona odpowiedź y(n)', 'odpowiedź niezakłócona systemu y_0(n)', 'odpowiedź predyktora jednokrokowego y(n|n-1)', 'odpowiedź modelu symulowanego y_m(n)')
 title('Szum kolorowy')
 grid on
+
+%% Wskaźniki
+V_pW = 1/N_wer * sum((yW_wer - yW_hat).^2);
+V_mW = 1/N_wer * sum((y0W - ymW).^2);
+
+V_pC = 1/N_wer * sum((yC_wer - yC_hat).^2);
+V_mC = 1/N_wer * sum((y0C - ymC).^2);
+
+%% Macierz kowariancji i przedziały ufności
+sig2 = 1 / (N - 4) * sum((yW_wer - PhiW_wer * pLSW).^2);
+Cov = sig2 * inv(PhiW_wer' * PhiW_wer);
+
+PU95_1_min = pLSW(1) - 1.96 * sqrt(Cov(1, 1));
+PU95_1_max = pLSW(1) + 1.96 * sqrt(Cov(1, 1));
+
+PU95_2_min = pLSW(2) - 1.96 * sqrt(Cov(2, 2));
+PU95_2_max = pLSW(2) + 1.96 * sqrt(Cov(2, 2));
