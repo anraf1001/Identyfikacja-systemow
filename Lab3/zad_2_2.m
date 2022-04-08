@@ -1,6 +1,6 @@
 close all; clear; clc;
 
-%% Wyświetlenie danych pomiarowych
+%% Wczytanie danych pomiarowych
 load IdentWsadowaDyn.mat
 
 Tp = 0.01;
