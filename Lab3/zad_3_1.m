@@ -35,7 +35,7 @@ ypF = lsim(F1, y_est, t_est, 'foh');
 uF = lsim(F0, u_est, t_est, 'foh');
 
 %% Identyfikacja
-Phi = [-yF, uF];
+Phi = [yF, uF];
 pLS = pinv(Phi) * ypF;
 T0 = -1/pLS(1);
 k0 = T0 * pLS(2);
