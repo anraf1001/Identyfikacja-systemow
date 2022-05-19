@@ -4,10 +4,10 @@ close all; clear; clc;
 Tp = 0.1;
 tend = 1000;
 Td = 1500;
-c1o = 0;
+c1o = 0.99;
 t = 0:Tp:tend;
 
-ident_select = 1; % 1 - RLS, 0 - RIV
+ident_select = 0; % 1 - RLS, 0 - RIV
 
 %% Uruchomienie symulacji
 sim('SystemARMAX');
@@ -44,7 +44,7 @@ fig_pred = figure;
 plot(t, y_hat)
 hold on
 plot(t, y)
-legend('predyktor jednokrokowy', 'odpowiedź systemu')
+legend('predyktor jednokrokowy', 'odpowiedź zakłócona')
 title('Porównanie odp. predyktora jednokrokowego z odp. systemu')
 
 %% Porównanie odpowiedzi modelu symulowanego z odpowiedzią systemu
